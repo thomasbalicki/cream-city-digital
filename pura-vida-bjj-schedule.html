@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Class Schedule | Pura Vida BJJ & MMA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; }
+    :root {
+      --gold: #F0B429;
+      --gold-bright: #F7C948;
+      --gold-dark: #C8920A;
+      --bg: #0a0a0a;
+      --s1: #111111;
+      --s2: #181818;
+      --border: #222222;
+    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: #f0f0f0; overflow-x: hidden; }
+    .bebas { font-family: 'Bebas Neue', Impact, sans-serif; letter-spacing: 0.03em; }
+
+    /* Navbar */
+    #navbar { transition: background 0.3s, border-color 0.3s; }
+    #navbar.scrolled { background: rgba(10,10,10,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(240,180,41,0.15); box-shadow: 0 1px 30px rgba(0,0,0,0.8); }
+
+    /* Day tabs */
+    .day-tab {
+      padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer;
+      background: var(--s1); border: 1px solid var(--border); color: #555;
+      transition: all 0.2s; white-space: nowrap;
+    }
+    .day-tab:hover { border-color: rgba(240,180,41,0.35); color: #aaa; }
+    .day-tab.active { background: var(--gold); color: #0a0a0a; border-color: var(--gold); }
+
+    /* Class cards */
+    .class-card {
+      background: var(--s1); border: 1px solid var(--border); border-radius: 14px;
+      padding: 18px 20px; display: flex; align-items: flex-start; gap: 16px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .class-card:hover { border-color: rgba(240,180,41,0.3); box-shadow: 0 4px 20px rgba(240,180,41,0.06); }
+
+    .class-time {
+      min-width: 70px; text-align: center; padding-top: 2px;
+    }
+    .class-time .hour { font-family: 'Bebas Neue', sans-serif; font-size: 26px; line-height: 1; color: var(--gold); }
+    .class-time .ampm { font-size: 10px; color: #444; letter-spacing: 0.1em; font-weight: 700; text-transform: uppercase; }
+
+    .type-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px;
+    }
+    .dot-bjj     { background: var(--gold); }
+    .dot-striking { background: #d0d0d0; }
+    .dot-youth   { background: #7dd3fc; }
+    .dot-openmat { background: #6ee7b7; }
+
+    .type-label {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 99px;
+    }
+    .label-bjj      { background: rgba(240,180,41,0.12); color: var(--gold); border: 1px solid rgba(240,180,41,0.25); }
+    .label-striking  { background: rgba(255,255,255,0.06); color: #b0b0b0; border: 1px solid rgba(255,255,255,0.1); }
+    .label-youth    { background: rgba(125,211,252,0.1); color: #7dd3fc; border: 1px solid rgba(125,211,252,0.2); }
+    .label-openmat  { background: rgba(110,231,183,0.1); color: #6ee7b7; border: 1px solid rgba(110,231,183,0.2); }
+
+    /* Admin panel */
+    #admin-panel { display: none; }
+    #admin-panel.open { display: block; }
+
+    .admin-input {
+      background: #181818; border: 1px solid #2a2a2a; border-radius: 8px;
+      color: #f0f0f0; padding: 10px 14px; font-size: 14px; width: 100%;
+      transition: border-color 0.2s; font-family: inherit;
+    }
+    .admin-input:focus { outline: none; border-color: rgba(240,180,41,0.5); }
+    .admin-input option { background: #181818; }
+
+    .btn-gold { background: var(--gold); color: #0a0a0a; font-weight: 800; border-radius: 8px; border: none; cursor: pointer; transition: background 0.2s; }
+    .btn-gold:hover { background: var(--gold-bright); }
+    .btn-ghost { background: transparent; border: 1px solid #333; color: #888; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+    .btn-ghost:hover { border-color: #555; color: #ccc; }
+    .btn-danger { background: transparent; border: 1px solid rgba(239,68,68,0.3); color: #f87171; font-weight: 600; border-radius: 6px; cursor: pointer; font-size: 11px; padding: 4px 10px; transition: all 0.2s; }
+    .btn-danger:hover { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.5); }
+    .btn-edit { background: transparent; border: 1px solid rgba(240,180,41,0.3); color: var(--gold); font-weight: 600; border-radius: 6px; cursor: pointer; font-size: 11px; padding: 4px 10px; transition: all 0.2s; }
+    .btn-edit:hover { background: rgba(240,180,41,0.1); border-color: rgba(240,180,41,0.55); }
+
+    .admin-class-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 12px 16px; background: #141414; border: 1px solid #222; border-radius: 10px;
+    }
+
+    /* Empty state */
+    .empty-state { text-align: center; padding: 60px 20px; color: #333; }
+
+    /* Legend */
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
+
+    select.admin-input { appearance: none; -webkit-appearance: none; cursor: pointer; }
+
+    /* View toggle */
+    .view-btn {
+      padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
+      background: var(--s1); border: 1px solid var(--border); color: #444;
+      transition: all 0.2s;
+    }
+    .view-btn:hover { border-color: rgba(240,180,41,0.35); color: #888; }
+    .view-btn.active { background: #141414; border-color: rgba(240,180,41,0.45); color: var(--gold); }
+
+    /* Week view */
+    .week-col { background: var(--s1); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .week-col-head {
+      padding: 10px 12px; border-bottom: 1px solid var(--border); background: #141414; text-align: center;
+    }
+    .week-item { padding: 10px 12px; border-bottom: 1px solid #181818; transition: background 0.15s; }
+    .week-item:last-child { border-bottom: none; }
+    .week-item:hover { background: rgba(240,180,41,0.03); }
+
+    /* Month calendar */
+    .cal-grid {
+      display: grid; grid-template-columns: repeat(7,1fr);
+      gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+    }
+    .cal-header-cell {
+      background: #111; padding: 8px 0; text-align: center;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #3a3a3a;
+    }
+    .cal-cell {
+      background: var(--s1); padding: 8px 8px 10px; min-height: 76px; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .cal-cell:hover { background: #161616; }
+    .cal-cell.today { background: #131208; }
+    .cal-cell.dimmed { background: #0c0c0c; cursor: default; }
+    .cal-cell.dimmed:hover { background: #0c0c0c; }
+    .cal-num { font-size: 12px; font-weight: 700; color: #2a2a2a; margin-bottom: 4px; }
+    .cal-cell.today .cal-num { color: var(--gold); }
+    .cal-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; margin: 1px; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar" class="fixed top-0 w-full z-50 py-3 px-6">
+  <div class="max-w-6xl mx-auto flex items-center justify-between gap-4">
+    <a href="pura-vida-bjj.html" class="flex items-center gap-3 flex-shrink-0">
+      <img src="https://static.wixstatic.com/media/bc269e_8b4e9e6d061541198b9ac6ad40f1a64d~mv2.png"
+           alt="Pura Vida BJJ & MMA" style="height:40px;width:auto;"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block';"/>
+      <div style="display:none;">
+        <div class="bebas text-xl text-white tracking-widest leading-none">PURA VIDA</div>
+        <div style="font-size:9px;letter-spacing:0.3em;color:var(--gold);font-weight:700;">BJJ &amp; MMA</div>
+      </div>
+    </a>
+    <div class="hidden sm:flex items-center gap-6 text-sm" style="color:#555;">
+      <a href="pura-vida-bjj.html#programs"    style="color:#555;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#555'">Programs</a>
+      <a href="pura-vida-bjj.html#instructors" style="color:#555;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#555'">Coaches</a>
+      <a href="pura-vida-bjj.html#trial"       style="color:#555;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#555'">Free Trial</a>
+    </div>
+    <button onclick="toggleAdmin()" id="admin-toggle-btn"
+      style="font-size:11px;letter-spacing:0.12em;padding:7px 14px;border-radius:7px;border:1px solid #2a2a2a;background:transparent;color:#444;cursor:pointer;transition:all 0.2s;font-weight:600;"
+      onmouseover="this.style.borderColor='rgba(240,180,41,0.3)';this.style.color='#888';"
+      onmouseout="this.style.borderColor='#2a2a2a';this.style.color='#444';">
+      ADMIN
+    </button>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div style="padding:120px 24px 48px;background:linear-gradient(to bottom,#0d0d0d,var(--bg));border-bottom:1px solid var(--border));">
+  <div class="max-w-6xl mx-auto">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+      <div style="width:44px;height:3px;background:var(--gold);border-radius:2px;flex-shrink:0;"></div>
+      <span style="font-size:11px;letter-spacing:0.22em;color:var(--gold);font-weight:700;text-transform:uppercase;">Weekly Class Schedule</span>
+    </div>
+    <h1 class="bebas text-white" style="font-size:clamp(48px,7vw,90px);line-height:0.9;">
+      FIND YOUR<br><span style="color:var(--gold);">CLASS</span>
+    </h1>
+    <p style="color:#555;margin-top:12px;font-size:15px;">All skill levels welcome. Show up 10 minutes early for your first class.</p>
+
+    <!-- Legend -->
+    <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:20px;">
+      <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:#555;">
+        <div class="legend-dot dot-bjj"></div> Brazilian Jiu-Jitsu
+      </div>
+      <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:#555;">
+        <div class="legend-dot dot-striking"></div> MMA / Striking
+      </div>
+      <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:#555;">
+        <div class="legend-dot dot-youth"></div> Youth
+      </div>
+      <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:#555;">
+        <div class="legend-dot dot-openmat"></div> Open Mat
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel">
+  <div style="background:#0d0d0d;border-bottom:1px solid #1e1e1e;padding:24px;">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Login gate -->
+      <div id="admin-login">
+        <p style="font-size:13px;color:#555;margin-bottom:12px;">Enter admin password to manage the schedule.</p>
+        <div style="display:flex;gap:10px;max-width:360px;">
+          <input type="password" id="admin-pw-input" class="admin-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPassword()"/>
+          <button class="btn-gold" style="padding:10px 20px;font-size:14px;" onclick="checkPassword()">Unlock</button>
+        </div>
+        <p id="pw-error" style="color:#f87171;font-size:12px;margin-top:8px;display:none;">Incorrect password.</p>
+      </div>
+
+      <!-- Admin controls (shown after login) -->
+      <div id="admin-controls" style="display:none;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+          <span style="font-size:13px;color:var(--gold);font-weight:700;letter-spacing:0.08em;">SCHEDULE ADMIN</span>
+          <button class="btn-ghost" style="padding:7px 16px;font-size:12px;" onclick="lockAdmin()">Lock</button>
+        </div>
+
+        <!-- Add class form -->
+        <div style="background:#141414;border:1px solid #222;border-radius:12px;padding:20px;margin-bottom:20px;">
+          <p id="form-title" style="font-size:12px;font-weight:700;letter-spacing:0.12em;color:#555;text-transform:uppercase;margin-bottom:12px;">Add a Class</p>
+          <!-- Schedule type toggle -->
+          <div style="display:flex;gap:6px;margin-bottom:14px;">
+            <button id="f-type-recur" class="view-btn active" style="font-size:11px;padding:6px 14px;" onclick="setFormType('recurring')">Recurring weekly</button>
+            <button id="f-type-date" class="view-btn" style="font-size:11px;padding:6px 14px;" onclick="setFormType('date')">Specific date</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
+            <div id="f-day-group">
+              <label style="font-size:11px;color:#444;display:block;margin-bottom:5px;font-weight:600;">Day of Week</label>
+              <select id="f-day" class="admin-input">
+                <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+                <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+              </select>
+            </div>
+            <div id="f-date-group" style="display:none;">
+              <label style="font-size:11px;color:#444;display:block;margin-bottom:5px;font-weight:600;">Date</label>
+              <input type="date" id="f-date" class="admin-input" style="color-scheme:dark;"/>
+            </div>
+            <div>
+              <label style="font-size:11px;color:#444;display:block;margin-bottom:5px;font-weight:600;">Time</label>
+              <input type="time" id="f-time" class="admin-input" value="06:00" style="color-scheme:dark;"/>
+            </div>
+            <div>
+              <label style="font-size:11px;color:#444;display:block;margin-bottom:5px;font-weight:600;">Class Name</label>
+              <select id="f-class" class="admin-input">
+                <option value="BJJ Fundamentals">BJJ Fundamentals</option>
+                <option value="Advanced BJJ">Advanced BJJ</option>
+                <option value="Striking Fundamentals">Striking Fundamentals</option>
+                <option value="Advanced Striking">Advanced Striking</option>
+                <option value="Youth BJJ">Youth BJJ</option>
+                <option value="Youth Striking">Youth Striking</option>
+                <option value="Open Mat">Open Mat</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11px;color:#444;display:block;margin-bottom:5px;font-weight:600;">Coach</label>
+              <select id="f-coach" class="admin-input">
+                <option>Zak Ottow</option><option>Jake Klipp</option><option>Courtnie Korpela</option>
+                <option>Solo Acosta</option><option>Benjamin Schauer</option>
+                <option>McKenzie Miner</option><option>Josh Ruiz</option><option>Mike Waltz</option>
+                <option>All Coaches</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11px;color:#444;display:block;margin-bottom:5px;font-weight:600;">Duration</label>
+              <select id="f-duration" class="admin-input">
+                <option>60 min</option><option>75 min</option><option>90 min</option>
+                <option>120 min</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-top:14px;display:flex;gap:10px;align-items:center;">
+            <button id="form-submit-btn" class="btn-gold" style="padding:11px 24px;font-size:13px;" onclick="submitForm()">+ Add Class</button>
+            <button id="form-cancel-btn" class="btn-ghost" style="padding:11px 20px;font-size:13px;display:none;" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+
+        <!-- Current classes list -->
+        <div>
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;color:#555;text-transform:uppercase;margin-bottom:12px;">Current Classes</p>
+          <div id="admin-class-list" style="display:flex;flex-direction:column;gap:8px;max-height:360px;overflow-y:auto;padding-right:4px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCHEDULE -->
+<div style="padding:32px 24px 80px;">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- View toggle -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+      <div id="view-toggle" style="display:flex;gap:6px;"></div>
+    </div>
+
+    <!-- Day tabs (day view only) -->
+    <div id="day-tabs-wrapper" style="margin-bottom:28px;">
+      <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;" id="day-tabs"></div>
+    </div>
+
+    <!-- Schedule output -->
+    <div id="schedule-view"></div>
+
+    <!-- Free trial CTA -->
+    <div style="margin-top:56px;padding:32px;background:#0d0d0d;border:1px solid #1a1a1a;border-radius:20px;text-align:center;">
+      <div class="bebas" style="font-size:clamp(28px,4vw,44px);color:white;line-height:1;margin-bottom:8px;">
+        YOUR FIRST CLASS IS <span style="color:var(--gold);">FREE</span>
+      </div>
+      <p style="color:#444;font-size:14px;margin-bottom:18px;">No experience or commitment required. Just show up.</p>
+      <a href="mailto:puravidabjjmma@gmail.com?subject=Free Trial Request"
+         style="display:inline-block;background:var(--gold);color:#0a0a0a;font-weight:800;padding:14px 36px;border-radius:10px;font-size:15px;text-decoration:none;transition:background 0.2s;"
+         onmouseover="this.style.background='#F7C948'" onmouseout="this.style.background='var(--gold)'">
+        Book Your Free Trial
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Default schedule ──
+const DEFAULT_SCHEDULE = [
+  { day:"Monday",    time:"06:00", name:"BJJ Fundamentals",      coach:"Jake Klipp",       duration:"60 min",  type:"bjj" },
+  { day:"Monday",    time:"12:00", name:"Advanced BJJ",          coach:"Zak Ottow",        duration:"90 min",  type:"bjj" },
+  { day:"Monday",    time:"18:00", name:"BJJ Fundamentals",      coach:"Jake Klipp",       duration:"60 min",  type:"bjj" },
+  { day:"Monday",    time:"19:15", name:"Advanced Striking",     coach:"Josh Ruiz",        duration:"60 min",  type:"striking" },
+  { day:"Tuesday",   time:"09:00", name:"Youth BJJ",             coach:"Courtnie Korpela", duration:"60 min",  type:"youth" },
+  { day:"Tuesday",   time:"18:00", name:"Striking Fundamentals", coach:"Solo Acosta",      duration:"60 min",  type:"striking" },
+  { day:"Tuesday",   time:"19:15", name:"Advanced BJJ",          coach:"Zak Ottow",        duration:"90 min",  type:"bjj" },
+  { day:"Wednesday", time:"06:00", name:"BJJ Fundamentals",      coach:"Mike Waltz",       duration:"60 min",  type:"bjj" },
+  { day:"Wednesday", time:"12:00", name:"Striking Fundamentals", coach:"Solo Acosta",      duration:"60 min",  type:"striking" },
+  { day:"Wednesday", time:"18:00", name:"Advanced BJJ",          coach:"Zak Ottow",        duration:"90 min",  type:"bjj" },
+  { day:"Thursday",  time:"09:00", name:"Youth Striking",        coach:"McKenzie Miner",   duration:"60 min",  type:"youth" },
+  { day:"Thursday",  time:"18:00", name:"BJJ Fundamentals",      coach:"Jake Klipp",       duration:"60 min",  type:"bjj" },
+  { day:"Thursday",  time:"19:15", name:"Advanced Striking",     coach:"Josh Ruiz",        duration:"60 min",  type:"striking" },
+  { day:"Friday",    time:"06:00", name:"Advanced BJJ",          coach:"Zak Ottow",        duration:"90 min",  type:"bjj" },
+  { day:"Friday",    time:"12:00", name:"BJJ Fundamentals",      coach:"Mike Waltz",       duration:"60 min",  type:"bjj" },
+  { day:"Friday",    time:"18:00", name:"Open Mat",              coach:"All Coaches",      duration:"90 min",  type:"openmat" },
+  { day:"Saturday",  time:"09:00", name:"Youth BJJ",             coach:"Courtnie Korpela", duration:"60 min",  type:"youth" },
+  { day:"Saturday",  time:"10:30", name:"Youth Striking",        coach:"McKenzie Miner",   duration:"60 min",  type:"youth" },
+  { day:"Saturday",  time:"12:00", name:"Advanced BJJ",          coach:"Zak Ottow",        duration:"90 min",  type:"bjj" },
+  { day:"Saturday",  time:"13:30", name:"Open Mat",              coach:"All Coaches",      duration:"90 min",  type:"openmat" },
+  { day:"Sunday",    time:"10:00", name:"Open Mat",              coach:"All Coaches",      duration:"120 min", type:"openmat" },
+];
+
+const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const DOW_TO_DAY = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const ADMIN_PASSWORD = "pvbjj";
+
+let schedule = JSON.parse(localStorage.getItem('pvSchedule') || 'null') || DEFAULT_SCHEDULE.map((c,i)=>({...c,id:i}));
+let nextId = Math.max(...schedule.map(c=>c.id||0)) + 1;
+let selectedDay = DAYS[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1];
+let selectedDate = null; // ISO string "YYYY-MM-DD" when viewing a specific date
+let adminUnlocked = false;
+let editingId = null;
+let viewMode = 'day';
+let formType = 'recurring'; // 'recurring' | 'date'
+
+function saveSchedule() { localStorage.setItem('pvSchedule', JSON.stringify(schedule)); }
+
+function classTypeFromName(name) {
+  const n = name.toLowerCase();
+  if (n.includes('open mat')) return 'openmat';
+  if (n.includes('youth')) return 'youth';
+  if (n.includes('striking')) return 'striking';
+  return 'bjj';
+}
+
+function formatTime(t) {
+  const [h, m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const hour = h % 12 || 12;
+  return { hour: hour + (m > 0 ? ':' + String(m).padStart(2,'0') : ''), ampm };
+}
+
+function typeLabel(type) {
+  return type === 'openmat' ? 'Open Mat' : type === 'bjj' ? 'BJJ' : type === 'youth' ? 'Youth' : 'Striking';
+}
+
+function fmtDate(iso) {
+  const d = new Date(iso + 'T00:00:00');
+  return d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+}
+
+function isoToday() {
+  return new Date().toISOString().split('T')[0];
+}
+
+// ── Form type toggle ──
+function setFormType(type) {
+  formType = type;
+  document.getElementById('f-day-group').style.display  = type === 'recurring' ? '' : 'none';
+  document.getElementById('f-date-group').style.display = type === 'date'      ? '' : 'none';
+  document.getElementById('f-type-recur').classList.toggle('active', type === 'recurring');
+  document.getElementById('f-type-date').classList.toggle('active',  type === 'date');
+}
+
+// ── View toggle ──
+function renderViewToggle() {
+  const el = document.getElementById('view-toggle');
+  el.innerHTML = ['day','week','month'].map(v =>
+    `<button class="view-btn ${viewMode === v ? 'active' : ''}" onclick="setViewMode('${v}')">${v.charAt(0).toUpperCase() + v.slice(1)}</button>`
+  ).join('');
+}
+
+function setViewMode(mode) {
+  viewMode = mode;
+  if (mode !== 'day') selectedDate = null;
+  renderViewToggle();
+  document.getElementById('day-tabs-wrapper').style.display = mode === 'day' ? '' : 'none';
+  renderView();
+}
+
+function renderView() {
+  if (viewMode === 'day') { renderTabs(); renderDayView(); }
+  else if (viewMode === 'week') renderWeekView();
+  else renderMonthView();
+}
+
+// ── Day view ──
+function renderTabs() {
+  const el = document.getElementById('day-tabs');
+  el.innerHTML = DAYS.map(d =>
+    `<button class="day-tab ${d === selectedDay && !selectedDate ? 'active' : ''}" onclick="selectDay('${d}')">${d}</button>`
+  ).join('');
+}
+
+function renderDayView() {
+  const el = document.getElementById('schedule-view');
+  let classes, header;
+
+  if (selectedDate) {
+    const dow = DOW_TO_DAY[new Date(selectedDate + 'T00:00:00').getDay()];
+    // Recurring classes for that weekday (that are not already date-overridden) + date-specific
+    classes = [
+      ...schedule.filter(c => c.day === dow && !c.date),
+      ...schedule.filter(c => c.date === selectedDate),
+    ].sort((a,b) => a.time.localeCompare(b.time));
+    header = `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
+      <div>
+        <div style="font-size:11px;letter-spacing:0.14em;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Viewing specific date</div>
+        <div style="font-size:18px;font-weight:700;color:#f0f0f0;">${fmtDate(selectedDate)}</div>
+      </div>
+      <button onclick="clearDate()" style="font-size:11px;padding:6px 14px;border-radius:7px;border:1px solid #2a2a2a;background:transparent;color:#555;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.color='#aaa';this.style.borderColor='#444'" onmouseout="this.style.color='#555';this.style.borderColor='#2a2a2a'">← Back to recurring</button>
+    </div>`;
+  } else {
+    classes = schedule.filter(c => c.day === selectedDay && !c.date).sort((a,b) => a.time.localeCompare(b.time));
+    header = '';
+  }
+
+  if (classes.length === 0) {
+    el.innerHTML = header + `<div class="empty-state"><div style="font-size:40px;margin-bottom:12px;">🥋</div><p style="font-size:15px;color:#333;">No classes scheduled${selectedDate ? ' for this date' : ' for ' + selectedDay}.</p></div>`;
+    return;
+  }
+
+  el.innerHTML = header + `<div style="display:flex;flex-direction:column;gap:12px;">${
+    classes.map(c => {
+      const t = formatTime(c.time);
+      const isOneTime = !!c.date;
+      return `<div class="class-card" style="${isOneTime ? 'border-color:rgba(125,211,252,0.2);' : ''}">
+        <div class="class-time"><div class="hour">${t.hour}</div><div class="ampm">${t.ampm}</div></div>
+        <div style="width:1px;background:#1e1e1e;align-self:stretch;flex-shrink:0;"></div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+            <span class="type-label label-${c.type}">${typeLabel(c.type)}</span>
+            <span style="font-size:11px;color:#333;">${c.duration}</span>
+            ${isOneTime ? '<span style="font-size:9px;font-weight:700;letter-spacing:0.12em;color:#7dd3fc;background:rgba(125,211,252,0.08);border:1px solid rgba(125,211,252,0.18);padding:2px 7px;border-radius:99px;">ONE-TIME</span>' : ''}
+          </div>
+          <div style="font-weight:700;font-size:17px;color:#f0f0f0;line-height:1.2;">${c.name}</div>
+          <div style="font-size:12px;color:#484848;margin-top:4px;">with ${c.coach}</div>
+        </div>
+      </div>`;
+    }).join('')
+  }</div>`;
+}
+
+function selectDay(day) {
+  selectedDay = day;
+  selectedDate = null;
+  if (viewMode !== 'day') { setViewMode('day'); return; }
+  renderTabs();
+  renderDayView();
+}
+
+function selectDate(iso) {
+  selectedDate = iso;
+  selectedDay = DOW_TO_DAY[new Date(iso + 'T00:00:00').getDay()];
+  if (viewMode !== 'day') {
+    viewMode = 'day';
+    renderViewToggle();
+    document.getElementById('day-tabs-wrapper').style.display = '';
+  }
+  renderTabs();
+  renderDayView();
+}
+
+function clearDate() {
+  selectedDate = null;
+  renderTabs();
+  renderDayView();
+}
+
+// ── Week view ──
+function getWeekDates() {
+  const now = new Date();
+  const dow = now.getDay();
+  const mon = new Date(now);
+  mon.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1));
+  return DAYS.map((_, i) => {
+    const d = new Date(mon);
+    d.setDate(mon.getDate() + i);
+    return d.toISOString().split('T')[0];
+  });
+}
+
+function renderWeekView() {
+  const el = document.getElementById('schedule-view');
+  const weekDates = getWeekDates();
+  const todayISO = isoToday();
+
+  el.innerHTML = `
+    <div style="overflow-x:auto;padding-bottom:8px;">
+      <div style="display:grid;grid-template-columns:repeat(7,minmax(136px,1fr));gap:8px;min-width:720px;">
+        ${DAYS.map((day, i) => {
+          const iso = weekDates[i];
+          const isToday = iso === todayISO;
+          const recurring = schedule.filter(c => c.day === day && !c.date);
+          const oneTime   = schedule.filter(c => c.date === iso);
+          const classes   = [...recurring, ...oneTime].sort((a,b) => a.time.localeCompare(b.time));
+          const dateNum   = parseInt(iso.split('-')[2]);
+          return `<div class="week-col" style="${isToday ? 'border-color:rgba(240,180,41,0.35);' : ''}">
+            <div class="week-col-head">
+              <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;color:${isToday ? 'var(--gold)' : '#444'};text-transform:uppercase;">${day.slice(0,3)}</div>
+              <div style="font-size:11px;color:${isToday ? '#888' : '#2a2a2a'};margin-top:1px;">${dateNum}</div>
+              <div style="font-size:10px;color:#222;margin-top:1px;">${classes.length} class${classes.length !== 1 ? 'es' : ''}</div>
+            </div>
+            ${classes.length === 0
+              ? `<div style="padding:20px 12px;text-align:center;font-size:11px;color:#1e1e1e;">Rest day</div>`
+              : classes.map(c => {
+                  const t = formatTime(c.time);
+                  return `<div class="week-item" onclick="selectDate('${iso}')">
+                    <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+                      <div class="type-dot dot-${c.type}" style="width:5px;height:5px;"></div>
+                      <span style="font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--gold);letter-spacing:0.03em;">${t.hour} <span style="font-size:10px;color:#444;">${t.ampm}</span></span>
+                      ${c.date ? '<span style="font-size:8px;color:#7dd3fc;font-weight:700;letter-spacing:0.08em;">★</span>' : ''}
+                    </div>
+                    <div style="font-size:12px;font-weight:600;color:#ccc;line-height:1.3;">${c.name}</div>
+                    <div style="font-size:10px;color:#2e2e2e;margin-top:1px;">${c.duration}</div>
+                  </div>`;
+                }).join('')
+            }
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+}
+
+// ── Month view ──
+function renderMonthView() {
+  const el = document.getElementById('schedule-view');
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const todayISO = isoToday();
+  const DAY_HEADERS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  const firstDOW = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const daysInPrev  = new Date(year, month, 0).getDate();
+
+  const cells = [];
+  for (let i = firstDOW - 1; i >= 0; i--) cells.push({ date: daysInPrev - i, cur: false });
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dow = (firstDOW + d - 1) % 7;
+    const iso = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    cells.push({ date: d, iso, cur: true, dayName: DOW_TO_DAY[dow], isToday: iso === todayISO });
+  }
+  const pad = cells.length % 7 === 0 ? 0 : 7 - (cells.length % 7);
+  for (let i = 1; i <= pad; i++) cells.push({ date: i, cur: false });
+
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+      <div class="bebas" style="font-size:28px;color:#f0f0f0;letter-spacing:0.04em;">${MONTH_NAMES[month]} <span style="color:var(--gold);">${year}</span></div>
+      <div style="display:flex;align-items:center;gap:12px;font-size:10px;color:#2a2a2a;">
+        <span>Tap a date to view &amp; manage</span>
+        <span style="color:#7dd3fc;">★ one-time</span>
+      </div>
+    </div>
+    <div class="cal-grid">
+      ${DAY_HEADERS.map(h => `<div class="cal-header-cell">${h}</div>`).join('')}
+      ${cells.map(cell => {
+        if (!cell.cur) return `<div class="cal-cell dimmed"><div class="cal-num" style="color:#1a1a1a;">${cell.date}</div></div>`;
+        const recurring = schedule.filter(c => c.day === cell.dayName && !c.date);
+        const oneTime   = schedule.filter(c => c.date === cell.iso);
+        const cls = [...recurring, ...oneTime].sort((a,b) => a.time.localeCompare(b.time));
+        return `<div class="cal-cell ${cell.isToday ? 'today' : ''}" onclick="selectDate('${cell.iso}')">
+          <div class="cal-num">${cell.date}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:2px;margin-top:2px;">
+            ${recurring.map(c => `<div class="cal-dot dot-${c.type}" title="${c.name}"></div>`).join('')}
+            ${oneTime.map(c  => `<div class="cal-dot" style="background:#7dd3fc;" title="★ ${c.name}"></div>`).join('')}
+          </div>
+          ${cls.length > 0 ? `<div style="font-size:9px;color:#2a2a2a;margin-top:4px;">${cls.length} class${cls.length !== 1 ? 'es' : ''}</div>` : ''}
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+// ── Admin list ──
+function renderAdminList() {
+  const el = document.getElementById('admin-class-list');
+  const sorted = [...schedule].sort((a,b) => {
+    // date-specific entries first, sorted by date; then recurring by day
+    const aKey = a.date ? '0' + a.date : '1' + DAYS.indexOf(a.day).toString().padStart(2,'0');
+    const bKey = b.date ? '0' + b.date : '1' + DAYS.indexOf(b.day).toString().padStart(2,'0');
+    return aKey.localeCompare(bKey) || a.time.localeCompare(b.time);
+  });
+  if (sorted.length === 0) { el.innerHTML = '<p style="color:#333;font-size:13px;padding:12px;">No classes yet.</p>'; return; }
+
+  let lastGroup = '';
+  el.innerHTML = sorted.map(c => {
+    const t = formatTime(c.time);
+    const isEditing = c.id === editingId;
+    const isOneTime = !!c.date;
+    const group = isOneTime ? 'One-time Events' : 'Recurring Classes';
+    const groupHeader = group !== lastGroup
+      ? `<div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:${isOneTime ? '#7dd3fc' : '#444'};padding:8px 0 4px;margin-top:${lastGroup ? '8px' : '0'};">${group}</div>`
+      : '';
+    lastGroup = group;
+    const when = isOneTime
+      ? new Date(c.date + 'T00:00:00').toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' })
+      : c.day;
+    return groupHeader + `<div class="admin-class-row" id="row-${c.id}" style="${isEditing ? 'border-color:rgba(240,180,41,0.4);background:#1a1810;' : ''}${isOneTime ? 'border-color:rgba(125,211,252,0.15);' : ''}">
+      <div style="min-width:0;flex:1;">
+        <div style="font-size:13px;font-weight:700;color:${isEditing ? 'var(--gold)' : '#d0d0d0'};">${c.name}</div>
+        <div style="font-size:11px;color:#444;margin-top:2px;">${when} · ${t.hour} ${t.ampm} · ${c.coach} · ${c.duration}</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-shrink:0;">
+        <button class="btn-edit" onclick="editClass(${c.id})">${isEditing ? 'Editing…' : 'Edit'}</button>
+        <button class="btn-danger" onclick="deleteClass(${c.id})">Remove</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Form / edit ──
+function submitForm() {
+  const name = document.getElementById('f-class').value;
+  const isDateForm = formType === 'date';
+  const entry = {
+    time:     document.getElementById('f-time').value,
+    name,
+    coach:    document.getElementById('f-coach').value,
+    duration: document.getElementById('f-duration').value,
+    type:     classTypeFromName(name),
+  };
+  if (isDateForm) {
+    entry.date = document.getElementById('f-date').value;
+  } else {
+    entry.day = document.getElementById('f-day').value;
+  }
+
+  if (editingId !== null) {
+    const idx = schedule.findIndex(c => c.id === editingId);
+    if (idx !== -1) schedule[idx] = { id: editingId, ...entry };
+    cancelEdit();
+  } else {
+    schedule.push({ id: nextId++, ...entry });
+  }
+  saveSchedule(); renderView(); renderAdminList();
+}
+
+function editClass(id) {
+  const c = schedule.find(x => x.id === id);
+  if (!c) return;
+  editingId = id;
+  if (c.date) {
+    setFormType('date');
+    document.getElementById('f-date').value = c.date;
+  } else {
+    setFormType('recurring');
+    document.getElementById('f-day').value = c.day;
+  }
+  document.getElementById('f-time').value     = c.time;
+  document.getElementById('f-class').value    = c.name;
+  document.getElementById('f-coach').value    = c.coach;
+  document.getElementById('f-duration').value = c.duration;
+  const title = document.getElementById('form-title');
+  title.textContent = 'Editing: ' + c.name;
+  title.style.color = 'var(--gold)';
+  document.getElementById('form-submit-btn').textContent = 'Save Changes';
+  document.getElementById('form-cancel-btn').style.display = 'inline-block';
+  renderAdminList();
+  title.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function cancelEdit() {
+  editingId = null;
+  setFormType('recurring');
+  const title = document.getElementById('form-title');
+  title.textContent = 'Add a Class';
+  title.style.color = '#555';
+  document.getElementById('form-submit-btn').textContent = '+ Add Class';
+  document.getElementById('form-cancel-btn').style.display = 'none';
+  renderAdminList();
+}
+
+function deleteClass(id) {
+  if (editingId === id) cancelEdit();
+  schedule = schedule.filter(c => c.id !== id);
+  saveSchedule(); renderView(); renderAdminList();
+}
+
+// ── Admin auth ──
+function toggleAdmin() {
+  const panel = document.getElementById('admin-panel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open') && !adminUnlocked) document.getElementById('admin-pw-input').focus();
+}
+
+function checkPassword() {
+  const val = document.getElementById('admin-pw-input').value;
+  if (val === ADMIN_PASSWORD) {
+    adminUnlocked = true;
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-controls').style.display = 'block';
+    renderAdminList();
+  } else {
+    document.getElementById('pw-error').style.display = 'block';
+    document.getElementById('admin-pw-input').value = '';
+  }
+}
+
+function lockAdmin() {
+  adminUnlocked = false;
+  document.getElementById('admin-controls').style.display = 'none';
+  document.getElementById('admin-login').style.display = 'block';
+  document.getElementById('admin-pw-input').value = '';
+  document.getElementById('pw-error').style.display = 'none';
+  document.getElementById('admin-panel').classList.remove('open');
+}
+
+// ── Navbar scroll ──
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+});
+
+// ── Init ──
+renderViewToggle();
+renderView();
+</script>
+</body>
+</html>
