@@ -11,19 +11,19 @@
 
   <style>
     :root {
-      --bg:      #0C0B09;
-      --s1:      #141210;
-      --s2:      #1C1A16;
-      --s3:      #222018;
-      --border:  #2C2820;
-      --border2: #3A342C;
-      --text:    #EDE8DE;
-      --muted:   #7A7060;
-      --muted2:  #4A4438;
-      --cream:   #EDE4CE;
-      --gold:    #C4B49A;
-      --gold-b:  #D4C4AA;
-      --gold-d:  #9E8E72;
+      --bg:      #F7F3ED;
+      --s1:      #EDE8DF;
+      --s2:      #E4DDD3;
+      --s3:      #D9D1C6;
+      --border:  #D0C8BC;
+      --border2: #BEB5A8;
+      --text:    #1C1815;
+      --muted:   #6B6355;
+      --muted2:  #9E9486;
+      --cream:   #F7F3ED;
+      --gold:    #8B6845;
+      --gold-b:  #A07B52;
+      --gold-d:  #6B5035;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; }
@@ -40,14 +40,14 @@
       content: '';
       position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.025; pointer-events: none; z-index: 9998;
+      opacity: 0.04; pointer-events: none; z-index: 9998;
     }
 
     .syne { font-family: 'Syne', sans-serif; }
 
     /* Navbar */
     #navbar { transition: background 0.35s, border-color 0.35s; border-bottom: 1px solid transparent; }
-    #navbar.scrolled { background: rgba(12,11,9,0.92); backdrop-filter: blur(20px); border-bottom-color: var(--border); }
+    #navbar.scrolled { background: rgba(247,243,237,0.95); backdrop-filter: blur(20px); border-bottom-color: var(--border); box-shadow: 0 1px 24px rgba(28,24,21,0.06); }
 
     /* Hero */
     .hero-grid {
@@ -61,22 +61,22 @@
 
     /* Gradient text */
     .grad-text {
-      background: linear-gradient(135deg, var(--cream) 0%, var(--gold) 50%, var(--cream) 100%);
+      background: linear-gradient(135deg, var(--gold-d) 0%, var(--gold) 55%, var(--gold-b) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
 
     /* Buttons */
     .btn-primary {
-      background: var(--gold); color: #0C0B09; font-weight: 700; border-radius: 10px;
+      background: var(--gold); color: #fff; font-weight: 700; border-radius: 10px;
       display: inline-flex; align-items: center; gap: 8px;
       transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
     }
-    .btn-primary:hover { background: var(--gold-b); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(196,180,154,0.25); }
+    .btn-primary:hover { background: var(--gold-b); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(139,104,69,0.25); }
     .btn-ghost {
       border: 1px solid var(--border2); color: var(--text); font-weight: 600; border-radius: 10px;
       display: inline-flex; align-items: center; gap: 8px; transition: border-color 0.2s, background 0.2s;
     }
-    .btn-ghost:hover { border-color: var(--gold); background: rgba(196,180,154,0.06); }
+    .btn-ghost:hover { border-color: var(--gold); background: rgba(139,104,69,0.06); }
 
     @keyframes scrollBounce {
       0%, 100% { transform: translateY(0); opacity: 0.5; }
@@ -96,7 +96,7 @@
     }
     .val-card::before {
       content: ''; position: absolute; inset: 0; border-radius: 16px;
-      background: linear-gradient(135deg, rgba(196,180,154,0.05), transparent);
+      background: linear-gradient(135deg, rgba(139,104,69,0.05), transparent);
       opacity: 0; transition: opacity 0.3s;
     }
     .val-card:hover { border-color: var(--border2); transform: translateY(-3px); }
@@ -104,7 +104,7 @@
 
     .icon-box {
       width: 44px; height: 44px; border-radius: 12px;
-      background: rgba(196,180,154,0.1); border: 1px solid rgba(196,180,154,0.2);
+      background: rgba(139,104,69,0.1); border: 1px solid rgba(139,104,69,0.2);
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
 
@@ -127,23 +127,23 @@
     }
     .cmp-table td:first-child { text-align: left; font-weight: 600; color: var(--text); font-size: 14px; }
     .cmp-table td.highlight {
-      background: rgba(196,180,154,0.04);
-      border-left: 1px solid rgba(196,180,154,0.15);
-      border-right: 1px solid rgba(196,180,154,0.15);
+      background: rgba(139,104,69,0.04);
+      border-left: 1px solid rgba(139,104,69,0.15);
+      border-right: 1px solid rgba(139,104,69,0.15);
       color: var(--gold); font-weight: 700;
     }
     .cmp-table th.highlight {
-      background: rgba(196,180,154,0.06);
-      border-left: 1px solid rgba(196,180,154,0.15);
-      border-right: 1px solid rgba(196,180,154,0.15);
+      background: rgba(139,104,69,0.06);
+      border-left: 1px solid rgba(139,104,69,0.15);
+      border-right: 1px solid rgba(139,104,69,0.15);
       border-radius: 12px 12px 0 0;
     }
     .cmp-table tr:last-child td.highlight { border-radius: 0 0 12px 12px; }
     .cmp-table tr:hover td { background: rgba(255,255,255,0.01); }
-    .cmp-table tr:hover td.highlight { background: rgba(196,180,154,0.07); }
-    .check { color: #6ee7b7; font-size: 16px; }
+    .cmp-table tr:hover td.highlight { background: rgba(139,104,69,0.07); }
+    .check { color: #2d7a4f; font-size: 16px; }
     .cross { color: var(--muted2); font-size: 16px; }
-    .partial { color: #F59E0B; font-size: 12px; font-weight: 600; }
+    .partial { color: #9a5e08; font-size: 12px; font-weight: 600; }
 
     /* Timeline */
     .timeline-line {
@@ -157,7 +157,7 @@
       position: relative; z-index: 1;
       transition: border-color 0.3s, background 0.3s;
     }
-    .tl-item:hover .tl-dot { border-color: var(--gold); background: rgba(196,180,154,0.08); }
+    .tl-item:hover .tl-dot { border-color: var(--gold); background: rgba(139,104,69,0.08); }
     .tl-item { display: flex; gap: 20px; align-items: flex-start; padding-bottom: 40px; position: relative; }
     .tl-item:last-child { padding-bottom: 0; }
 
@@ -253,15 +253,15 @@
 <section style="position:relative;padding:140px 24px 100px;overflow:hidden;min-height:90vh;display:flex;align-items:center;">
 
   <div class="hero-grid" style="position:absolute;inset:0;"></div>
-  <div class="glow-orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(196,180,154,0.1),transparent 70%);top:-80px;right:-80px;"></div>
-  <div class="glow-orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(196,180,154,0.06),transparent 70%);bottom:0;left:-60px;"></div>
+  <div class="glow-orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(139,104,69,0.1),transparent 70%);top:-80px;right:-80px;"></div>
+  <div class="glow-orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(139,104,69,0.06),transparent 70%);bottom:0;left:-60px;"></div>
 
   <div style="max-width:1200px;margin:0 auto;width:100%;position:relative;">
     <div style="display:grid;grid-template-columns:1fr 420px;gap:72px;align-items:center;" id="hero-grid" class="two-col">
 
       <!-- Left -->
       <div>
-        <div class="reveal" style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;border:1px solid var(--border2);margin-bottom:28px;background:rgba(196,180,154,0.04);">
+        <div class="reveal" style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;border:1px solid var(--border2);margin-bottom:28px;background:rgba(139,104,69,0.04);">
           <div style="width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);"></div>
           <span style="font-size:12px;font-weight:600;letter-spacing:0.1em;color:var(--gold);">Milwaukee, WI</span>
         </div>
@@ -290,7 +290,7 @@
       <div class="reveal rd2" style="display:none;justify-content:center;">
         <div class="portrait-ph" style="width:100%;max-width:360px;height:440px;">
           <!-- Glow -->
-          <div style="position:absolute;inset:-1px;border-radius:20px;background:linear-gradient(135deg,rgba(196,180,154,0.2),transparent 60%);pointer-events:none;z-index:0;"></div>
+          <div style="position:absolute;inset:-1px;border-radius:20px;background:linear-gradient(135deg,rgba(139,104,69,0.2),transparent 60%);pointer-events:none;z-index:0;"></div>
           <!-- Silhouette -->
           <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
             <svg viewBox="0 0 200 260" style="width:72%;position:absolute;bottom:0;opacity:0.18;" xmlns="http://www.w3.org/2000/svg">
@@ -338,7 +338,7 @@
       <p class="reveal">Building a high-quality website is faster and more efficient than it used to be, but many agencies still charge prices that put great web design out of reach for small businesses. My goal is to change that by delivering modern, custom websites that look professional, perform well, and are priced fairly.</p>
 
       <!-- Pull quote -->
-      <blockquote class="reveal" style="border-left:2px solid var(--gold);padding:20px 24px;margin:12px 0;background:rgba(196,180,154,0.04);border-radius:0 12px 12px 0;">
+      <blockquote class="reveal" style="border-left:2px solid var(--gold);padding:20px 24px;margin:12px 0;background:rgba(139,104,69,0.04);border-radius:0 12px 12px 0;">
         <p style="font-size:18px;font-style:italic;color:var(--text);line-height:1.7;font-weight:500;">"Based in Milwaukee, I work with small businesses throughout Wisconsin and across the United States to create websites that build trust, showcase their work, and help generate new customers."</p>
       </blockquote>
 
@@ -535,7 +535,7 @@
       </div>
 
       <div class="tl-item reveal rd5" style="padding-bottom:0;">
-        <div class="tl-dot" style="border-color:rgba(196,180,154,0.5);background:rgba(196,180,154,0.08);">
+        <div class="tl-dot" style="border-color:rgba(139,104,69,0.5);background:rgba(139,104,69,0.08);">
           <i data-lucide="star" style="width:16px;height:16px;color:var(--gold);"></i>
         </div>
         <div style="padding-top:6px;">
@@ -596,7 +596,7 @@
 
 <!-- ═══════════ PHILOSOPHY ═══════════ -->
 <section style="padding:120px 24px;background:var(--bg);position:relative;overflow:hidden;">
-  <div class="glow-orb" style="width:700px;height:700px;background:radial-gradient(circle,rgba(196,180,154,0.07),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  <div class="glow-orb" style="width:700px;height:700px;background:radial-gradient(circle,rgba(139,104,69,0.07),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
 
   <!-- Background grid -->
   <div style="position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:64px 64px;opacity:0.15;"></div>
@@ -620,7 +620,7 @@
 
 <!-- ═══════════ FINAL CTA ═══════════ -->
 <section style="padding:96px 24px;background:var(--s1);border-top:1px solid var(--border);position:relative;overflow:hidden;">
-  <div class="glow-orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(196,180,154,0.09),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  <div class="glow-orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(139,104,69,0.09),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
 
   <div style="max-width:680px;margin:0 auto;text-align:center;position:relative;">
     <div class="reveal" style="margin-bottom:14px;">
