@@ -1,0 +1,751 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About | Cream City Digital â€” Milwaukee Web Designer</title>
+  <meta name="description" content="Cream City Digital delivers premium, custom websites for small businesses across Milwaukee and Wisconsin â€” agency quality, personal service, honest pricing."/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      --bg:      #0C0B09;
+      --s1:      #141210;
+      --s2:      #1C1A16;
+      --s3:      #222018;
+      --border:  #2C2820;
+      --border2: #3A342C;
+      --text:    #EDE8DE;
+      --muted:   #7A7060;
+      --muted2:  #4A4438;
+      --cream:   #EDE4CE;
+      --gold:    #C9A96E;
+      --gold-b:  #DFC08A;
+      --gold-d:  #A8873A;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025; pointer-events: none; z-index: 9998;
+    }
+
+    .syne { font-family: 'Syne', sans-serif; }
+
+    /* Navbar */
+    #navbar { transition: background 0.35s, border-color 0.35s; border-bottom: 1px solid transparent; }
+    #navbar.scrolled { background: rgba(12,11,9,0.92); backdrop-filter: blur(20px); border-bottom-color: var(--border); }
+
+    /* Hero */
+    .hero-grid {
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 0%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 0%, transparent 100%);
+      opacity: 0.3;
+    }
+    .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+
+    /* Gradient text */
+    .grad-text {
+      background: linear-gradient(135deg, var(--cream) 0%, var(--gold) 50%, var(--cream) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: var(--gold); color: #0C0B09; font-weight: 700; border-radius: 10px;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { background: var(--gold-b); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,169,110,0.25); }
+    .btn-ghost {
+      border: 1px solid var(--border2); color: var(--text); font-weight: 600; border-radius: 10px;
+      display: inline-flex; align-items: center; gap: 8px; transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); background: rgba(201,169,110,0.06); }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); opacity: 0.5; }
+      50% { transform: translateY(7px); opacity: 1; }
+    }
+    /* Reveals */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.up { opacity: 1; transform: none; }
+    .rd1{transition-delay:.07s} .rd2{transition-delay:.14s} .rd3{transition-delay:.21s}
+    .rd4{transition-delay:.28s} .rd5{transition-delay:.35s} .rd6{transition-delay:.42s}
+
+    /* Value cards */
+    .val-card {
+      background: var(--s1); border: 1px solid var(--border); border-radius: 16px; padding: 28px;
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .val-card::before {
+      content: ''; position: absolute; inset: 0; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(201,169,110,0.05), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .val-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+    .val-card:hover::before { opacity: 1; }
+
+    .icon-box {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: rgba(201,169,110,0.1); border: 1px solid rgba(201,169,110,0.2);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+
+    /* Section label */
+    .section-label { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .sl-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+    .sl-text { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+
+    /* Comparison table */
+    .cmp-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .cmp-table th {
+      padding: 14px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--muted); text-align: center; border-bottom: 1px solid var(--border);
+    }
+    .cmp-table th:first-child { text-align: left; }
+    .cmp-table th.highlight { color: var(--gold); }
+    .cmp-table td {
+      padding: 14px 16px; font-size: 14px; text-align: center;
+      border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: middle;
+    }
+    .cmp-table td:first-child { text-align: left; font-weight: 600; color: var(--text); font-size: 14px; }
+    .cmp-table td.highlight {
+      background: rgba(201,169,110,0.04);
+      border-left: 1px solid rgba(201,169,110,0.15);
+      border-right: 1px solid rgba(201,169,110,0.15);
+      color: var(--gold); font-weight: 700;
+    }
+    .cmp-table th.highlight {
+      background: rgba(201,169,110,0.06);
+      border-left: 1px solid rgba(201,169,110,0.15);
+      border-right: 1px solid rgba(201,169,110,0.15);
+      border-radius: 12px 12px 0 0;
+    }
+    .cmp-table tr:last-child td.highlight { border-radius: 0 0 12px 12px; }
+    .cmp-table tr:hover td { background: rgba(255,255,255,0.01); }
+    .cmp-table tr:hover td.highlight { background: rgba(201,169,110,0.07); }
+    .check { color: #6ee7b7; font-size: 16px; }
+    .cross { color: var(--muted2); font-size: 16px; }
+    .partial { color: #F59E0B; font-size: 12px; font-weight: 600; }
+
+    /* Timeline */
+    .timeline-line {
+      position: absolute; left: 19px; top: 0; bottom: 0; width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--border2) 10%, var(--border2) 90%, transparent);
+    }
+    .tl-dot {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      background: var(--s2); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .tl-item:hover .tl-dot { border-color: var(--gold); background: rgba(201,169,110,0.08); }
+    .tl-item { display: flex; gap: 20px; align-items: flex-start; padding-bottom: 40px; position: relative; }
+    .tl-item:last-child { padding-bottom: 0; }
+
+    /* Process cards */
+    .proc-card {
+      background: var(--s1); border: 1px solid var(--border); border-radius: 16px;
+      padding: 28px; text-align: center; display: flex; flex-direction: column; align-items: center;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .proc-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+    .proc-num {
+      width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: var(--gold); margin-bottom: 20px;
+      background: var(--bg);
+    }
+
+    /* Portrait placeholder */
+    .portrait-ph {
+      background: linear-gradient(160deg, var(--s2) 0%, var(--s3) 100%);
+      border: 1px solid var(--border2); border-radius: 20px;
+      overflow: hidden; position: relative;
+    }
+
+    /* Mobile menu */
+    #mobile-menu { transform: translateY(-100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); }
+    #mobile-menu.open { transform: none; }
+
+    .foot-link { color: var(--muted); font-size: 14px; display: block; margin-bottom: 10px; transition: color 0.2s; }
+    .foot-link:hover { color: var(--text); }
+
+    a { text-decoration: none; }
+    ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--gold-d); border-radius: 4px; }
+
+    @media(max-width:768px){
+      .two-col { grid-template-columns: 1fr !important; }
+      .three-col { grid-template-columns: 1fr !important; }
+      .four-col { grid-template-columns: 1fr 1fr !important; }
+      .cmp-wrap { overflow-x: auto; }
+      .cmp-table { min-width: 560px; }
+    }
+    @media(max-width:480px){
+      .four-col { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â• NAVBAR â•â•â•â•â•â•â•â•â•â•â• -->
+<nav id="navbar" class="fixed top-0 w-full z-50 px-6 lg:px-10 py-4">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+
+    <a href="index.html" style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+      <div style="height:46px;width:74px;overflow:hidden;flex-shrink:0;border-radius:6px;position:relative;">
+        <img src="images/logo.png" alt="Cream City Digital" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:145%;max-width:none;display:block;"/>
+      </div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--text);line-height:1;">Cream City</div>
+        <div style="font-size:9px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;font-weight:600;line-height:1;margin-top:1px;">Design</div>
+      </div>
+    </a>
+
+    <div id="desktop-nav" style="display:flex;align-items:center;gap:32px;">
+      <a href="index.html#services" style="font-size:14px;font-weight:500;color:var(--muted);transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Services</a>
+      <a href="index.html#pricing"  style="font-size:14px;font-weight:500;color:var(--muted);transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Pricing</a>
+      <a href="about.html"             style="font-size:14px;font-weight:500;color:var(--gold);" >About</a>
+      <a href="index.html#faq"       style="font-size:14px;font-weight:500;color:var(--muted);transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">FAQ</a>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px;">
+      <a href="index.html#contact" class="btn-primary" style="padding:9px 20px;font-size:14px;" id="nav-cta">Get a Free Quote</a>
+      <button id="ham-btn" onclick="toggleMenu()" style="background:none;border:none;cursor:pointer;padding:4px;display:none;">
+        <div style="width:22px;display:flex;flex-direction:column;gap:5px;">
+          <span style="display:block;height:1.5px;background:var(--text);border-radius:2px;transition:all 0.25s;" id="hb1"></span>
+          <span style="display:block;height:1.5px;background:var(--text);border-radius:2px;transition:all 0.25s;" id="hb2"></span>
+          <span style="display:block;height:1.5px;width:14px;background:var(--text);border-radius:2px;margin-left:auto;transition:all 0.25s;" id="hb3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div id="mobile-menu" style="position:fixed;top:0;left:0;right:0;z-index:49;background:var(--s1);border-bottom:1px solid var(--border);padding:80px 24px 32px;display:flex;flex-direction:column;gap:4px;">
+  <a href="index.html#services" onclick="closeMenu()" style="padding:14px 0;border-bottom:1px solid var(--border);font-size:18px;font-weight:600;color:var(--text);">Services</a>
+  <a href="index.html#pricing"  onclick="closeMenu()" style="padding:14px 0;border-bottom:1px solid var(--border);font-size:18px;font-weight:600;color:var(--text);">Pricing</a>
+  <a href="about.html"            onclick="closeMenu()" style="padding:14px 0;border-bottom:1px solid var(--border);font-size:18px;font-weight:600;color:var(--gold);">About</a>
+  <a href="index.html#faq"      onclick="closeMenu()" style="padding:14px 0;border-bottom:1px solid var(--border);font-size:18px;font-weight:600;color:var(--text);">FAQ</a>
+  <a href="index.html#contact"  onclick="closeMenu()" class="btn-primary" style="margin-top:16px;padding:14px;text-align:center;justify-content:center;font-size:15px;">Get a Free Quote</a>
+</div>
+
+
+<!-- â•â•â•â•â•â•â•â•â•â•â• HERO â•â•â•â•â•â•â•â•â•â•â• -->
+<section style="position:relative;padding:140px 24px 100px;overflow:hidden;min-height:90vh;display:flex;align-items:center;">
+
+  <div class="hero-grid" style="position:absolute;inset:0;"></div>
+  <div class="glow-orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(201,169,110,0.1),transparent 70%);top:-80px;right:-80px;"></div>
+  <div class="glow-orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(201,169,110,0.06),transparent 70%);bottom:0;left:-60px;"></div>
+
+  <div style="max-width:1200px;margin:0 auto;width:100%;position:relative;">
+    <div style="display:grid;grid-template-columns:1fr 420px;gap:72px;align-items:center;" id="hero-grid" class="two-col">
+
+      <!-- Left -->
+      <div>
+        <div class="reveal" style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;border:1px solid var(--border2);margin-bottom:28px;background:rgba(201,169,110,0.04);">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);"></div>
+          <span style="font-size:12px;font-weight:600;letter-spacing:0.1em;color:var(--gold);">Milwaukee, WI</span>
+        </div>
+
+        <h1 class="syne reveal rd1" style="font-size:clamp(36px,5vw,62px);font-weight:800;letter-spacing:-0.02em;line-height:1.05;margin-bottom:22px;">
+          Professional websites<br>without the<br><span class="grad-text">agency price tag.</span>
+        </h1>
+
+        <p class="reveal rd2" style="font-size:18px;color:var(--muted);line-height:1.8;margin-bottom:36px;max-width:500px;">
+          I help small businesses build modern, professional websites that are fast, easy to maintain, and designed to earn trust and generate more customers.
+        </p>
+
+        <div class="reveal rd3" style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:40px;">
+          <a href="index.html#contact" class="btn-primary" style="padding:13px 24px;font-size:15px;">Get a Free Quote</a>
+          <a href="index.html#work"    class="btn-ghost"   style="padding:13px 24px;font-size:15px;">View Portfolio</a>
+        </div>
+
+        <div class="reveal rd4" style="display:flex;flex-wrap:wrap;gap:20px;">
+          <div style="display:flex;align-items:center;gap:7px;"><i data-lucide="map-pin" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;"></i><span style="font-size:13px;color:var(--muted);font-weight:500;">Based in Milwaukee, WI</span></div>
+          <div style="display:flex;align-items:center;gap:7px;"><i data-lucide="zap" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;"></i><span style="font-size:13px;color:var(--muted);font-weight:500;">2â€“3 Week Delivery</span></div>
+          <div style="display:flex;align-items:center;gap:7px;"><i data-lucide="shield-check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;"></i><span style="font-size:13px;color:var(--muted);font-weight:500;">You Own Everything</span></div>
+        </div>
+      </div>
+
+      <!-- Right: Portrait -->
+      <div class="reveal rd2" style="display:none;justify-content:center;">
+        <div class="portrait-ph" style="width:100%;max-width:360px;height:440px;">
+          <!-- Glow -->
+          <div style="position:absolute;inset:-1px;border-radius:20px;background:linear-gradient(135deg,rgba(201,169,110,0.2),transparent 60%);pointer-events:none;z-index:0;"></div>
+          <!-- Silhouette -->
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
+            <svg viewBox="0 0 200 260" style="width:72%;position:absolute;bottom:0;opacity:0.18;" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="100" cy="75" r="50" fill="var(--cream)"/>
+              <path d="M10,260 Q10,155 100,155 Q190,155 190,260 Z" fill="var(--cream)"/>
+            </svg>
+          </div>
+          <!-- Bottom label -->
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(12,11,9,0.85),transparent);border-radius:0 0 20px 20px;z-index:2;">
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:3px;">Founder &amp; Designer</div>
+            <div style="font-size:15px;font-weight:700;color:var(--text);">Cream City Digital</div>
+          </div>
+          <!-- Gold corner -->
+          <div style="position:absolute;top:16px;right:16px;width:32px;height:32px;border-top:2px solid var(--gold);border-right:2px solid var(--gold);border-radius:0 8px 0 0;opacity:0.5;z-index:2;"></div>
+          <div style="position:absolute;bottom:16px;left:16px;width:32px;height:32px;border-bottom:2px solid var(--gold);border-left:2px solid var(--gold);border-radius:0 0 0 8px;opacity:0.5;z-index:2;"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div style="position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;">
+    <span style="font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted2);">Scroll</span>
+    <div style="animation:scrollBounce 1.6s ease-in-out infinite;">
+      <i data-lucide="chevron-down" style="width:20px;height:20px;color:var(--gold);"></i>
+    </div>
+  </div>
+</section>
+
+
+<!-- â•â•â•â•â•â•â•â•â•â•â• ABOUT ME â•â•â•â•â•â•â•â•â•â•â• -->
+<section style="padding:96px 24px;background:var(--s1);border-top:1px solid var(--border);">
+  <div style="max-width:760px;margin:0 auto;">
+
+    <div class="reveal" style="margin-bottom:48px;">
+      <div class="section-label"><div class="sl-dot"></div><span class="sl-text">About Me</span></div>
+      <h2 class="syne" style="font-size:clamp(30px,4vw,44px);font-weight:800;letter-spacing:-0.02em;line-height:1.1;">Why I started<br>Cream City Digital.</h2>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:20px;font-size:16px;color:var(--muted);line-height:1.85;">
+
+      <p class="reveal">I started Cream City Digital because I believe professional web design should be accessible to every business â€” not just companies with large marketing budgets.</p>
+
+      <p class="reveal">Building a high-quality website is faster and more efficient than it used to be, but many agencies still charge prices that put great web design out of reach for small businesses. My goal is to change that by delivering modern, custom websites that look professional, perform well, and are priced fairly.</p>
+
+      <!-- Pull quote -->
+      <blockquote class="reveal" style="border-left:2px solid var(--gold);padding:20px 24px;margin:12px 0;background:rgba(201,169,110,0.04);border-radius:0 12px 12px 0;">
+        <p style="font-size:18px;font-style:italic;color:var(--text);line-height:1.7;font-weight:500;">"Based in Milwaukee, I work with small businesses throughout Wisconsin and across the United States to create websites that build trust, showcase their work, and help generate new customers."</p>
+      </blockquote>
+
+      <p class="reveal">My background combines business, marketing, and technology, with experience in full-stack web development and data engineering. That mix allows me to look beyond the design itself and focus on what actually makes a website successful. A great website should be fast, mobile-friendly, easy to navigate, and built with SEO best practices so potential customers can find your business online.</p>
+
+      <p class="reveal">I also understand that most business owners aren't looking for another project to manage. You're busy running your business, serving customers, and growing your company â€” not learning web development or spending hours updating your website. That's why I build websites that are easy to maintain, reliable, and designed to keep working for your business long after they're launched.</p>
+
+      <p class="reveal">Whether you need a brand-new website or want to modernize an outdated one, my goal is the same: create a website that reflects the quality of your business. Every project is built with a clean, professional design, clear messaging, and a focus on turning visitors into customers.</p>
+
+      <p class="reveal" style="color:var(--text);font-weight:500;">At the end of the day, I believe good web design isn't about flashy animations or unnecessary complexity. It's about creating a website that makes a great first impression, earns trust, and helps your business grow.</p>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- â•â•â•â•â•â•â•â•â•â•â• WHY CHOOSE â•â•â•â•â•â•â•â•â•â•â• -->
+<section style="padding:96px 24px;background:var(--bg);">
+  <div style="max-width:1200px;margin:0 auto;">
+
+    <div style="text-align:center;margin-bottom:56px;" class="reveal">
+      <div class="section-label" style="justify-content:center;"><div class="sl-dot"></div><span class="sl-text">Why Choose Me</span><div class="sl-dot"></div></div>
+      <h2 class="syne" style="font-size:clamp(32px,4vw,48px);font-weight:800;letter-spacing:-0.02em;line-height:1.1;margin-bottom:14px;">What makes this<br>different.</h2>
+      <p style="color:var(--muted);font-size:16px;max-width:480px;margin:0 auto;line-height:1.75;">No bloated agencies. No generic templates. Just focused, purposeful work â€” built around your business.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" class="three-col">
+
+      <div class="val-card reveal rd1">
+        <div class="icon-box" style="margin-bottom:20px;"><i data-lucide="user" style="width:20px;height:20px;color:var(--gold);"></i></div>
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:10px;">You Work Directly With Me</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">No account managers or middlemen. Every conversation is directly with the person designing and building your website â€” better communication, faster turnaround.</p>
+      </div>
+
+      <div class="val-card reveal rd2">
+        <div class="icon-box" style="margin-bottom:20px;"><i data-lucide="award" style="width:20px;height:20px;color:var(--gold);"></i></div>
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:10px;">Agency Quality Without Agency Overhead</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">Modern tools allow me to build premium websites more efficiently than ever. You get professional results without paying for unnecessary layers of overhead.</p>
+      </div>
+
+      <div class="val-card reveal rd3">
+        <div class="icon-box" style="margin-bottom:20px;"><i data-lucide="trending-up" style="width:20px;height:20px;color:var(--gold);"></i></div>
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:10px;">Built to Grow Your Business</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">Beautiful design is only part of the equation. Every site is built with SEO, speed, mobile responsiveness, and conversion-focused layouts that turn visitors into customers.</p>
+      </div>
+
+      <div class="val-card reveal rd4">
+        <div class="icon-box" style="margin-bottom:20px;"><i data-lucide="settings" style="width:20px;height:20px;color:var(--gold);"></i></div>
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:10px;">Easy to Maintain</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">Your website shouldn't become another full-time job. I build clean, reliable websites that require minimal maintenance and are easy to update as your business grows.</p>
+      </div>
+
+      <div class="val-card reveal rd5">
+        <div class="icon-box" style="margin-bottom:20px;"><i data-lucide="heart" style="width:20px;height:20px;color:var(--gold);"></i></div>
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:10px;">Personal Service</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">You're never just another project. I take the time to understand your business, answer every question, and create a website that genuinely reflects the quality of your work.</p>
+      </div>
+
+      <div class="val-card reveal rd6">
+        <div class="icon-box" style="margin-bottom:20px;"><i data-lucide="layers" style="width:20px;height:20px;color:var(--gold);"></i></div>
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:10px;">Business + Marketing + Technology</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">My experience spans business, marketing, full-stack development, and data engineering â€” allowing me to make decisions based on both aesthetics and measurable business results.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- â•â•â•â•â•â•â•â•â•â•â• COMPARISON â•â•â•â•â•â•â•â•â•â•â• -->
+<section style="padding:96px 24px;background:var(--s1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div style="max-width:1100px;margin:0 auto;">
+
+    <div style="text-align:center;margin-bottom:48px;" class="reveal">
+      <div class="section-label" style="justify-content:center;"><div class="sl-dot"></div><span class="sl-text">How We Compare</span><div class="sl-dot"></div></div>
+      <h2 class="syne" style="font-size:clamp(30px,4vw,44px);font-weight:800;letter-spacing:-0.02em;line-height:1.1;margin-bottom:12px;">The best of every option,<br>rolled into one.</h2>
+      <p style="color:var(--muted);font-size:15px;max-width:440px;margin:0 auto;">Every option has tradeoffs. Cream City Digital is designed to eliminate the biggest ones.</p>
+    </div>
+
+    <div class="cmp-wrap reveal">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th style="width:28%;">Feature</th>
+            <th>DIY Builders</th>
+            <th>Freelancers</th>
+            <th>Large Agencies</th>
+            <th class="highlight">Cream City Digital</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Professional custom design</td>
+            <td><span class="partial">Depends</span></td>
+            <td><span class="check">âœ“</span></td>
+            <td><span class="check">âœ“</span></td>
+            <td class="highlight"><span class="check">âœ“</span></td>
+          </tr>
+          <tr>
+            <td>Direct communication</td>
+            <td><span class="check">âœ“</span></td>
+            <td><span class="check">âœ“</span></td>
+            <td><span class="cross">âœ—</span></td>
+            <td class="highlight"><span class="check">âœ“</span></td>
+          </tr>
+          <tr>
+            <td>Marketing strategy</td>
+            <td><span class="cross">âœ—</span></td>
+            <td><span class="partial">Sometimes</span></td>
+            <td><span class="check">âœ“</span></td>
+            <td class="highlight"><span class="check">âœ“</span></td>
+          </tr>
+          <tr>
+            <td>SEO optimization</td>
+            <td><span class="partial">Limited</span></td>
+            <td><span class="partial">Varies</span></td>
+            <td><span class="check">âœ“</span></td>
+            <td class="highlight"><span class="check">âœ“</span></td>
+          </tr>
+          <tr>
+            <td>Fast performance</td>
+            <td><span class="partial">Limited</span></td>
+            <td><span class="partial">Varies</span></td>
+            <td><span class="check">âœ“</span></td>
+            <td class="highlight"><span class="check">âœ“</span></td>
+          </tr>
+          <tr>
+            <td>Affordable for small businesses</td>
+            <td><span class="check">âœ“</span></td>
+            <td><span class="check">âœ“</span></td>
+            <td><span class="cross">âœ—</span></td>
+            <td class="highlight"><span class="check">âœ“</span></td>
+          </tr>
+          <tr>
+            <td>Ongoing support</td>
+            <td><span class="partial">Limited</span></td>
+            <td><span class="partial">Varies</span></td>
+            <td><span class="check">âœ“</span></td>
+            <td class="highlight"><span class="check">âœ“</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- â•â•â•â•â•â•â•â•â•â•â• TIMELINE â•â•â•â•â•â•â•â•â•â•â• -->
+<section style="padding:96px 24px;background:var(--bg);">
+  <div style="max-width:680px;margin:0 auto;">
+
+    <div style="text-align:center;margin-bottom:64px;" class="reveal">
+      <div class="section-label" style="justify-content:center;"><div class="sl-dot"></div><span class="sl-text">Background</span><div class="sl-dot"></div></div>
+      <h2 class="syne" style="font-size:clamp(30px,4vw,44px);font-weight:800;letter-spacing:-0.02em;line-height:1.1;">The experience<br>behind the work.</h2>
+    </div>
+
+    <div style="position:relative;padding-left:0;">
+      <div class="timeline-line"></div>
+
+      <div class="tl-item reveal rd1">
+        <div class="tl-dot"><i data-lucide="briefcase" style="width:16px;height:16px;color:var(--gold);"></i></div>
+        <div style="padding-top:6px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Foundation</div>
+          <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">Business</h3>
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;">Understanding how businesses operate, make decisions, and measure results â€” the foundation for everything that follows.</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal rd2">
+        <div class="tl-dot"><i data-lucide="bar-chart-2" style="width:16px;height:16px;color:var(--gold);"></i></div>
+        <div style="padding-top:6px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Growth</div>
+          <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">Marketing</h3>
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;">Learning how customers think, how brands earn trust, and what actually drives people to take action online.</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal rd3">
+        <div class="tl-dot"><i data-lucide="code-2" style="width:16px;height:16px;color:var(--gold);"></i></div>
+        <div style="padding-top:6px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Craft</div>
+          <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">Full-Stack Development</h3>
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;">Building the technical foundation â€” front-end, back-end, databases, and everything in between. Turning designs into fast, functional products.</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal rd4">
+        <div class="tl-dot"><i data-lucide="database" style="width:16px;height:16px;color:var(--gold);"></i></div>
+        <div style="padding-top:6px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Scale</div>
+          <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">Data Engineering</h3>
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;">Working at scale â€” building systems that handle complexity, optimize performance, and deliver reliable results under real-world conditions.</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal rd5" style="padding-bottom:0;">
+        <div class="tl-dot" style="border-color:rgba(201,169,110,0.5);background:rgba(201,169,110,0.08);">
+          <i data-lucide="star" style="width:16px;height:16px;color:var(--gold);"></i>
+        </div>
+        <div style="padding-top:6px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Today</div>
+          <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">Cream City Digital</h3>
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;">Combining all of it â€” business thinking, marketing strategy, and technical craft â€” to build websites that genuinely move the needle for small businesses.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- â•â•â•â•â•â•â•â•â•â•â• PROCESS â•â•â•â•â•â•â•â•â•â•â• -->
+<section style="padding:96px 24px;background:var(--s1);border-top:1px solid var(--border);">
+  <div style="max-width:1200px;margin:0 auto;">
+
+    <div style="text-align:center;margin-bottom:56px;" class="reveal">
+      <div class="section-label" style="justify-content:center;"><div class="sl-dot"></div><span class="sl-text">How It Works</span><div class="sl-dot"></div></div>
+      <h2 class="syne" style="font-size:clamp(32px,4vw,48px);font-weight:800;letter-spacing:-0.02em;line-height:1.1;">From first call<br>to launch day.</h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;" id="proc-grid" class="four-col">
+      <div style="position:absolute;top:20px;left:calc(12.5%);right:calc(12.5%);height:1px;background:linear-gradient(to right,transparent,var(--border2),var(--border2),transparent);" id="proc-line"></div>
+
+      <div class="proc-card reveal rd1">
+        <div class="proc-num">01</div>
+        <div style="font-size:11px;letter-spacing:0.15em;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:8px;">Discover</div>
+        <h4 style="font-size:17px;font-weight:700;margin-bottom:10px;">Understand</h4>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">We start with your business, your customers, and what you want your website to accomplish.</p>
+      </div>
+
+      <div class="proc-card reveal rd2">
+        <div class="proc-num">02</div>
+        <div style="font-size:11px;letter-spacing:0.15em;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:8px;">Design</div>
+        <h4 style="font-size:17px;font-weight:700;margin-bottom:10px;">Create</h4>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">You see a full design concept before a single line of code is written. We refine until it's right.</p>
+      </div>
+
+      <div class="proc-card reveal rd3">
+        <div class="proc-num">03</div>
+        <div style="font-size:11px;letter-spacing:0.15em;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:8px;">Build</div>
+        <h4 style="font-size:17px;font-weight:700;margin-bottom:10px;">Develop</h4>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">Fast, clean code. Mobile-first. Tested across every device and browser before you see a single page.</p>
+      </div>
+
+      <div class="proc-card reveal rd4">
+        <div class="proc-num">04</div>
+        <div style="font-size:11px;letter-spacing:0.15em;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:8px;">Launch</div>
+        <h4 style="font-size:17px;font-weight:700;margin-bottom:10px;">Publish</h4>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">We go live together. I handle the launch, set up analytics, and make sure everything runs perfectly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- â•â•â•â•â•â•â•â•â•â•â• PHILOSOPHY â•â•â•â•â•â•â•â•â•â•â• -->
+<section style="padding:120px 24px;background:var(--bg);position:relative;overflow:hidden;">
+  <div class="glow-orb" style="width:700px;height:700px;background:radial-gradient(circle,rgba(201,169,110,0.07),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+
+  <!-- Background grid -->
+  <div style="position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:64px 64px;opacity:0.15;"></div>
+
+  <div style="max-width:860px;margin:0 auto;text-align:center;position:relative;">
+    <div class="reveal" style="margin-bottom:24px;">
+      <div class="section-label" style="justify-content:center;"><div class="sl-dot"></div><span class="sl-text">Philosophy</span><div class="sl-dot"></div></div>
+    </div>
+
+    <div class="syne reveal rd1" style="font-size:clamp(22px,3.5vw,20px);color:var(--muted);letter-spacing:-0.01em;margin-bottom:20px;font-weight:600;"></div>
+
+    <blockquote class="syne reveal rd2" style="font-size:clamp(28px,4.5vw,54px);font-weight:800;letter-spacing:-0.025em;line-height:1.1;color:var(--text);">
+      "My philosophy is simple:<br>
+      <span class="grad-text">your website should work<br>as hard as you do."</span>
+    </blockquote>
+
+    <p class="reveal rd3" style="font-size:16px;color:var(--muted);margin-top:28px;line-height:1.75;max-width:520px;margin-left:auto;margin-right:auto;">That means fast load times, clear messaging, easy navigation, and a design that earns trust the moment someone lands on the page.</p>
+  </div>
+</section>
+
+
+<!-- â•â•â•â•â•â•â•â•â•â•â• FINAL CTA â•â•â•â•â•â•â•â•â•â•â• -->
+<section style="padding:96px 24px;background:var(--s1);border-top:1px solid var(--border);position:relative;overflow:hidden;">
+  <div class="glow-orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(201,169,110,0.09),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+
+  <div style="max-width:680px;margin:0 auto;text-align:center;position:relative;">
+    <div class="reveal" style="margin-bottom:14px;">
+      <div class="section-label" style="justify-content:center;"><div class="sl-dot"></div><span class="sl-text">Get Started</span><div class="sl-dot"></div></div>
+    </div>
+
+    <h2 class="syne reveal rd1" style="font-size:clamp(30px,4vw,50px);font-weight:800;letter-spacing:-0.02em;line-height:1.1;margin-bottom:18px;">
+      Ready for a website that<br><span class="grad-text">represents your business?</span>
+    </h2>
+
+    <p class="reveal rd2" style="font-size:17px;color:var(--muted);line-height:1.75;margin-bottom:36px;">Let's create a website that builds trust, attracts customers, and helps your business grow.</p>
+
+    <div class="reveal rd3" style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:28px;">
+      <a href="index.html#contact" class="btn-primary" style="padding:14px 28px;font-size:15px;">Get a Free Quote</a>
+      <a href="index.html#work"    class="btn-ghost"   style="padding:14px 28px;font-size:15px;">View Portfolio</a>
+    </div>
+
+    <p class="reveal rd4" style="font-size:13px;color:var(--muted2);">Free strategy call Â· No obligation Â· Response within 24 hours</p>
+  </div>
+</section>
+
+
+<!-- â•â•â•â•â•â•â•â•â•â•â• FOOTER â•â•â•â•â•â•â•â•â•â•â• -->
+<footer style="background:var(--bg);border-top:1px solid var(--border);padding:48px 24px 32px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px;margin-bottom:40px;">
+
+      <div style="max-width:300px;">
+        <a href="index.html" style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <div style="height:34px;width:54px;overflow:hidden;flex-shrink:0;border-radius:5px;position:relative;">
+            <img src="images/logo.png" alt="Cream City Digital" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:145%;max-width:none;display:block;"/>
+          </div>
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--text);line-height:1;">Cream City Digital</div>
+            <div style="font-size:9px;letter-spacing:0.18em;color:var(--muted2);text-transform:uppercase;margin-top:1px;">Built in Milwaukee</div>
+          </div>
+        </a>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">Premium web design for Milwaukee's local businesses. Designed to grow.</p>
+      </div>
+
+      <div style="display:flex;gap:48px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text);margin-bottom:14px;">Site</div>
+          <a href="index.html#services" class="foot-link">Services</a>
+          <a href="index.html#pricing"  class="foot-link">Pricing</a>
+          <a href="about.html"             class="foot-link">About</a>
+          <a href="index.html#faq"       class="foot-link">FAQ</a>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text);margin-bottom:14px;">Contact</div>
+          <a href="mailto:hello@creamcitydesign.com" class="foot-link">hello@creamcitydesign.com</a>
+          <a href="tel:4145550192"                   class="foot-link">(414) 555-0192</a>
+          <span class="foot-link" style="cursor:default;">Milwaukee, WI</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid var(--border);padding-top:24px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;">
+      <p style="font-size:13px;color:var(--muted2);">&copy; 2026 Cream City Digital Â· Milwaukee, WI</p>
+      <p style="font-size:13px;color:var(--muted2);">Built in Milwaukee. Designed to Grow.</p>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  lucide.createIcons();
+
+  // Navbar scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  }, { passive: true });
+
+  // Responsive nav
+  function setLayout() {
+    const w = window.innerWidth;
+    const dn = document.getElementById('desktop-nav');
+    const hb = document.getElementById('ham-btn');
+    const nc = document.getElementById('nav-cta');
+    if (w >= 1024) {
+      dn.style.display = 'flex'; hb.style.display = 'none'; nc.style.display = 'inline-flex';
+    } else {
+      dn.style.display = 'none'; hb.style.display = 'block'; nc.style.display = 'none';
+    }
+    // Hero grid
+    const hg = document.getElementById('hero-grid');
+    if (hg) hg.style.gridTemplateColumns = w >= 900 ? '1fr 420px' : '1fr';
+    // Process
+    const pg = document.getElementById('proc-grid');
+    const pl = document.getElementById('proc-line');
+    if (pg) {
+      if (w >= 700) { pg.style.gridTemplateColumns = 'repeat(4,1fr)'; if(pl) pl.style.display = 'block'; }
+      else if (w >= 480) { pg.style.gridTemplateColumns = 'repeat(2,1fr)'; if(pl) pl.style.display = 'none'; }
+      else { pg.style.gridTemplateColumns = '1fr'; if(pl) pl.style.display = 'none'; }
+    }
+    // Three-col cards
+    document.querySelectorAll('.three-col').forEach(g => {
+      g.style.gridTemplateColumns = w >= 768 ? 'repeat(3,1fr)' : '1fr';
+    });
+  }
+  window.addEventListener('resize', setLayout);
+  setLayout();
+
+  // Hamburger
+  let menuOpen = false;
+  function toggleMenu() {
+    menuOpen = !menuOpen;
+    document.getElementById('mobile-menu').classList.toggle('open', menuOpen);
+    const h1=document.getElementById('hb1'),h2=document.getElementById('hb2'),h3=document.getElementById('hb3');
+    if (menuOpen) {
+      h1.style.transform='translateY(6.5px) rotate(45deg)'; h2.style.opacity='0';
+      h3.style.transform='translateY(-6.5px) rotate(-45deg)'; h3.style.width='22px'; h3.style.marginLeft='0';
+    } else {
+      h1.style.transform=''; h2.style.opacity='1';
+      h3.style.transform=''; h3.style.width='14px'; h3.style.marginLeft='auto';
+    }
+  }
+  function closeMenu() { if (menuOpen) toggleMenu(); }
+
+  // Scroll reveal
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('up'); ro.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+</script>
+</body>
+</html>
+
