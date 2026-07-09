@@ -853,31 +853,36 @@
 
     <!-- Left -->
     <div class="reveal">
-      <div class="section-label"><div class="sl-dot"></div><span class="sl-text">Let's Build</span></div>
-      <h2 class="syne" style="font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-0.02em;line-height:1.05;margin-bottom:16px;">Ready to build something that works?</h2>
-      <p style="color:var(--muted);font-size:16px;line-height:1.75;margin-bottom:32px;">Tell us about your business and what you need. We'll reach out within 24 hours to schedule a free strategy call — no pitch, just a real conversation.</p>
+      <div class="section-label"><div class="sl-dot"></div><span class="sl-text">Free Preview</span></div>
+      <h2 class="syne" style="font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-0.02em;line-height:1.05;margin-bottom:16px;">See what your new site could look like. Free.</h2>
+      <p style="color:var(--muted);font-size:16px;line-height:1.75;margin-bottom:32px;">Share your current website and a little about your business. We'll build you a free custom preview of what your site could look like — no templates, no guesswork. You'll get a confirmation from us right away that we're on it, and your preview in your inbox within 48 hours.</p>
 
-      <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:36px;">
+      <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:36px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="icon-box" style="width:38px;height:38px;border-radius:10px;flex-shrink:0;"><i data-lucide="layout-template" style="width:16px;height:16px;color:var(--gold);"></i></div>
+          <div style="font-size:14px;color:var(--muted);line-height:1.5;">Custom preview designed for your business — not a generic mockup</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="icon-box" style="width:38px;height:38px;border-radius:10px;flex-shrink:0;"><i data-lucide="clock" style="width:16px;height:16px;color:var(--gold);"></i></div>
+          <div style="font-size:14px;color:var(--muted);line-height:1.5;">Preview delivered within 48 hours on average</div>
+        </div>
         <div style="display:flex;align-items:center;gap:12px;">
           <div class="icon-box" style="width:38px;height:38px;border-radius:10px;flex-shrink:0;"><i data-lucide="mail" style="width:16px;height:16px;color:var(--gold);"></i></div>
-          <div>
-            <div style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Email</div>
-            <a href="mailto:hello@cairnstudio.com" style="font-size:15px;font-weight:700;color:var(--text);">hello@cairnstudio.com</a>
-          </div>
+          <div style="font-size:14px;color:var(--muted);line-height:1.5;"><a href="mailto:hello@cairnstudio.com" style="color:var(--gold);font-weight:600;">hello@cairnstudio.com</a></div>
         </div>
       </div>
 
       <div style="padding:20px;background:rgba(139,104,69,0.05);border:1px solid rgba(139,104,69,0.15);border-radius:14px;">
-        <div style="font-size:13px;color:var(--gold);font-weight:700;margin-bottom:6px;">No obligation. No hard sell.</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.6;">CAIRN takes a limited number of projects each quarter. If we're not the right fit, we'll tell you — and point you somewhere that is.</div>
+        <div style="font-size:13px;color:var(--gold);font-weight:700;margin-bottom:6px;">Zero commitment. Zero pressure.</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6;">Love the preview? We'll talk next steps. Not feeling it? Keep the preview, no hard feelings — and no invoice.</div>
       </div>
     </div>
 
     <!-- Right: form -->
     <div class="reveal rd2">
       <div style="background:var(--s2);border:1px solid var(--border);border-radius:20px;padding:36px;">
-        <h3 style="font-size:20px;font-weight:700;margin-bottom:6px;">Tell us about your project</h3>
-        <p style="font-size:14px;color:var(--muted);margin-bottom:28px;">We'll respond within one business day.</p>
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:6px;">Get your free preview</h3>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:28px;">Share your URL and we'll get to work. Preview in your inbox within 48 hours.</p>
 
         <form onsubmit="handleForm(event)" style="display:flex;flex-direction:column;gap:14px;">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -895,6 +900,10 @@
             <input type="email" placeholder="you@yourbusiness.com" required style="width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"/>
           </div>
           <div>
+            <label style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;">Current Website URL</label>
+            <input type="url" placeholder="https://yourwebsite.com" style="width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"/>
+          </div>
+          <div>
             <label style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;">Budget Range</label>
             <select style="width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:14px;font-family:inherit;outline:none;appearance:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
               <option value="">Select a range...</option>
@@ -906,19 +915,19 @@
             </select>
           </div>
           <div>
-            <label style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;">Tell us about your project</label>
-            <textarea rows="4" placeholder="What does your business do? Do you have an existing site? What's your biggest goal?" style="width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:14px;font-family:inherit;outline:none;resize:vertical;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+            <label style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;">Anything else we should know?</label>
+            <textarea rows="3" placeholder="What does your business do? Any goals, must-haves, or things you hate about your current site?" style="width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:14px;font-family:inherit;outline:none;resize:vertical;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"></textarea>
           </div>
-          <button type="submit" class="btn-primary" style="padding:13px;font-size:15px;border:none;width:100%;cursor:pointer;justify-content:center;">Send My Request</button>
-          <p style="font-size:12px;color:var(--muted2);text-align:center;">No spam. We respond within 24 hours.</p>
+          <button type="submit" class="btn-primary" style="padding:13px;font-size:15px;border:none;width:100%;cursor:pointer;justify-content:center;">Get Your Free Preview</button>
+          <p style="font-size:12px;color:var(--muted2);text-align:center;">Free, no commitment. Preview delivered within 48 hours.</p>
         </form>
 
         <div id="form-success" style="display:none;text-align:center;padding:32px 16px;">
           <div style="width:52px;height:52px;border-radius:50%;background:rgba(139,104,69,0.1);border:1px solid rgba(139,104,69,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
             <i data-lucide="check" style="width:22px;height:22px;color:var(--gold);"></i>
           </div>
-          <div class="syne" style="font-size:20px;font-weight:700;margin-bottom:8px;">Message received.</div>
-          <p style="font-size:14px;color:var(--muted);">We'll reach out within 24 hours to schedule your strategy call.</p>
+          <div class="syne" style="font-size:20px;font-weight:700;margin-bottom:8px;">We're on it.</div>
+          <p style="font-size:14px;color:var(--muted);">You'll hear from us shortly confirming we're working on it — and your free preview will be in your inbox within 48 hours.</p>
         </div>
       </div>
     </div>
